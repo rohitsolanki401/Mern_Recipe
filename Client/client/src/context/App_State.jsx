@@ -5,39 +5,74 @@ import axios from 'axios';
 const AppState = (props) => {
   const url = 'http://localhost:3000/api';
   // Load token from localStorage if present
-  const [token, setToken] = useState(()=> localStorage.getItem('token') || '');
+  const [token, setToken] = useState(() => localStorage.getItem('token') || '');
   const [recipe, setRecipe] = useState([]);
   const [savedRecipe, setSavedRecipe] = useState([]);
   const [user, setUser] = useState([]);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState('');
   const [userRecipe, setUserRecipe] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [reload,setReload] = useState(true)
+  const [reload, setReload] = useState(true);
+
+  // profile
+  const profile = React.useCallback(async () => {
+    const api = await axios.get(`${url}/user`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Auth: token,
+      },
+      withCredentials: true,
+    });
+    setUserId(api.data.user?._id || '');
+    setUser(api.data.user || {});
+  }, [token]);
+
+  // recipeByUser
+  const recipeByUser = async (id) => {
+    const api = await axios.get(`${url}/user/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    });
+    setUserRecipe(api.data.recipe);
+  };
+
+  // getSavedRecipeById
+  const getSavedRecipeById = async () => {
+    const api = await axios.get(`${url}/saved`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    });
+    setSavedRecipe(api.data.recipe);
+  };
+
+  // fetchRecipe
+  const fetchRecipe = async () => {
+    const api = await axios.get(`${url}/`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    });
+    setRecipe(api.data.recipe);
+  };
 
   useEffect(() => {
-    // Fetch all recipes
-    const fetchRecipe = async () => {
-      const api = await axios.get(`${url}/`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      });
-      // console.log("recipe data",api.data.recipe);
-      setRecipe(api.data.recipe);
-    };
     fetchRecipe();
     getSavedRecipeById();
     profile();
     recipeByUser(userId);
-  }, [token,userId,reload]);
+  }, [token, userId, reload, profile]);
 
   useEffect(() => {
     if (token) {
       localStorage.setItem('token', token);
     }
-    setIsAuthenticated(true)
-  }, [token,reload]);
+    setIsAuthenticated(true);
+  }, [token, reload]);
 
   // login
   const login = async (gmail, password) => {
@@ -55,7 +90,7 @@ const AppState = (props) => {
       }
     );
     setToken(api.data.token);
-    setIsAuthenticated(true)
+    setIsAuthenticated(true);
     console.log('login data', api);
     return api;
   };
@@ -119,7 +154,7 @@ const AppState = (props) => {
       }
     );
     console.log('create recipe data:', api);
-    setReload(!reload)
+    setReload(!reload);
     return api;
   };
 
@@ -153,56 +188,13 @@ const AppState = (props) => {
     return api;
   };
 
-  // Get Saved Recipe by ID
-  const getSavedRecipeById = async () => {
-    const api = await axios.get(
-      `${url}/saved`,
-
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      }
-    );
-    console.log('getting saved recipe by Id:', api.data.recipe);
-    setSavedRecipe(api.data.recipe);
-    //return api;
-  };
-
-  // profile
-  const profile = async () => {
-    const api = await axios.get(`${url}/user`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Auth: token,
-      },
-      withCredentials: true,
-    });
-    // console.log('This is user profile', api.data.user);
-    setUserId(api.data.user._id)
-    setUser(api.data.user)
-  };
-
-  // get recipe by userId
-  const recipeByUser = async (id) => {
-    const api = await axios.get(`${url}/user/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    });
-    console.log('user specific recipe', api);
-    setUserRecipe(api.data.recipe)
-  }
-
   // logout
   const logout = () => {
-    localStorage.removeItem("token",token);
-    setToken("")
-    setIsAuthenticated(false)
-  }
- 
+    localStorage.removeItem('token', token);
+    setToken('');
+    setIsAuthenticated(false);
+  };
+
   return (
     <div>
       <AppContext.Provider
@@ -219,7 +211,8 @@ const AppState = (props) => {
           user,
           isAuthenticated,
           setIsAuthenticated,
-          logout
+          logout,
+          profile, 
         }}
       >
         {props.children}

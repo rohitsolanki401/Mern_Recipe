@@ -1,15 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../context/App_Context';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Saved = () => {
-  const { savedRecipe, recipe } = useContext(AppContext);
+  const { savedRecipe, recipe, profile, token, userId, reload } =
+    useContext(AppContext);
   const navigate = useNavigate();
   // Get the full recipe objects for saved recipes
   const savedRecipeIds = savedRecipe?.map((item) => item.recipe);
   const savedRecipesData = recipe.filter((r) =>
     savedRecipeIds?.includes(r._id)
   );
+
+  useEffect(() => {
+    profile();
+  }, [token, userId, reload, profile]);
 
   return (
     <div className="text-center mx-auto" style={{ width: '1200px' }}>
@@ -26,17 +31,9 @@ const Saved = () => {
                   flexDirection: 'column',
                   justifyContent: 'center',
                   alignItems: 'center',
-                }}
-                onClick={() => navigate(`/${data._id}`)}
-                style={{
-                  width: '18rem',
-                  minHeight: '120px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
                   cursor: 'pointer',
                 }}
+                onClick={() => navigate(`/${data._id}`)}
               >
                 <img
                   src={data.imgurl}

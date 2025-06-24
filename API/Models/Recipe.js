@@ -1,14 +1,9 @@
 import mongoose from "mongoose";
 
 const recipeSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    require: true,
-  },
-  ist: {
-    type: String,
-    require: true,
-  },
+  title: { type: String, required: true },
+  ist: { type: String, required: true },
+  imgurl: { type: String, required: true },
   ing1:{type:String},
   ing2:{type:String},
   ing3:{type:String},
@@ -17,7 +12,6 @@ const recipeSchema = new mongoose.Schema({
   qty2:{type:String},
   qty3:{type:String},
   qty4:{type:String},
-  imgurl:{type:String,require:true},
   user:{
     type:mongoose.Schema.Types.ObjectId,
     ref:"user"
@@ -25,4 +19,13 @@ const recipeSchema = new mongoose.Schema({
 
 });
 
-export const Recipe = mongoose.model("recipe",recipeSchema)
+export const Recipe = mongoose.model("recipe",recipeSchema);
+
+const onSubmitHandler = async (e) => {
+  e.preventDefault();
+  if (!title || !ist || !imgurl) {
+    toast.error("Title, instruction, and image URL are required!");
+    return;
+  }
+  // ...rest
+};

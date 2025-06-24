@@ -6,7 +6,7 @@ export const Authenticate = async (req,res,next) =>{
     try {
         if(!token) return res.json({message:"login first"})
 
-        const decode = jwt.verify(token, "!@#$%^&*()");
+        const decode = jwt.verify(token, process.env.JWT_SECRET);
 
         // console.log("this is decoded data ",decode)
 

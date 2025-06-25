@@ -3,7 +3,7 @@ import { AppContext } from './App_Context';
 import axios from 'axios';
 
 const AppState = (props) => {
-  const url = 'http://localhost:3000/api';
+  const url = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
   // Load token from localStorage if present
   const [token, setToken] = useState(() => localStorage.getItem('token') || '');
   const [recipe, setRecipe] = useState([]);
@@ -212,7 +212,7 @@ const AppState = (props) => {
           isAuthenticated,
           setIsAuthenticated,
           logout,
-          profile, 
+          profile,
         }}
       >
         {props.children}

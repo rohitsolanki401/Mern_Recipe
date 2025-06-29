@@ -23,7 +23,7 @@ app.use('/api', userRouter)
 // recipeRouter
 app.use('/api',recipeRouter)
 
-mongoose.connect("mongodb+srv://rohitkumarsolanki:ZItlojkTxcS062UX@cluster0.sje5vxa.mongodb.net/",{
+mongoose.connect("mongodb+srv://rohitkumarsolanki:recipe123@cluster0.sje5vxa.mongodb.net/",{
     dbName:"MERN_Recipe_App",
 })
 .then(()=> console.log("MongoDB is connected...!"))
@@ -32,7 +32,3 @@ mongoose.connect("mongodb+srv://rohitkumarsolanki:ZItlojkTxcS062UX@cluster0.sje5
 const port = process.env.PORT || 3000;
 
 app.listen(port,()=> console.log(`server is running on port ${port}`))
-
-//Connection String = mongodb+srv://rohitkumarsolanki:<db_password>@cluster0.sje5vxa.mongodb.net/
-// Mongo Db password - lW8hDFrichTILFyc
-// Username - rohitkumarsolanki

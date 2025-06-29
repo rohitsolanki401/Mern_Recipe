@@ -127,7 +127,8 @@ const AppState = (props) => {
     qty2,
     qty3,
     qty4,
-    imgurl
+    imgurl,
+    category 
   ) => {
     const api = await axios.post(
       `${url}/add`,
@@ -143,8 +144,8 @@ const AppState = (props) => {
         qty3,
         qty4,
         imgurl,
+        category, 
       },
-      {},
       {
         headers: {
           'Content-Type': 'application/json',

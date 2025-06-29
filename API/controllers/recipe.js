@@ -35,6 +35,34 @@ export const add = async (req, res) => {
   }
 } 
 
+// Search Recipes
+export const searchRecipes = async (req, res) => {
+  try {
+    const { search = '', category = '' } = req.query;
+    const query = {};
+
+    if (search) {
+      // Search by title or ingredient (case-insensitive)
+      query.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { ing1: { $regex: search, $options: 'i' } },
+        { ing2: { $regex: search, $options: 'i' } },
+        { ing3: { $regex: search, $options: 'i' } },
+        { ing4: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    if (category) {
+      query.category = category;
+    }
+
+    const recipes = await Recipe.find(query);
+    res.json({ recipes });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 export const getAllRecipe = async (req,res) =>{
     const recipe = await Recipe.find();

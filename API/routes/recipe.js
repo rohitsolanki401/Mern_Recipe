@@ -1,5 +1,5 @@
 import express from 'express'
-import { add, getAllRecipe, getRecipeById, getRecipeByUserId, getSavedRecipe, savedRecipeById } from '../controllers/recipe.js';
+import { add, getAllRecipe, searchRecipes, getRecipeById, getRecipeByUserId, getSavedRecipe, savedRecipeById } from '../controllers/recipe.js';
 
 import { Authenticate } from '../middlewares/auth.js';
 
@@ -22,6 +22,9 @@ router.get('/user/:id',getRecipeByUserId)
 
 // saved Recipe by Id
 router.post("/:id", Authenticate, savedRecipeById);
+
+// search recipes
+router.get('/recipes',searchRecipes);
 
 
 

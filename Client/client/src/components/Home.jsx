@@ -39,6 +39,9 @@ const Home = () => {
                 </div>
                 <div className="card-body">
                   <h5 className="card-title">{data.title}</h5>
+                  <p className="card-text">
+                    <strong>Category:</strong> {data.category || 'N/A'}
+                  </p>
                   <div className="my-3">
                     <button
                       onClick={() => saved(data._id)}

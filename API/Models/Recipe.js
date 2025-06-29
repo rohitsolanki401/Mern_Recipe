@@ -12,11 +12,11 @@ const recipeSchema = new mongoose.Schema({
   qty2:{type:String},
   qty3:{type:String},
   qty4:{type:String},
+  category: {type:String},
   user:{
     type:mongoose.Schema.Types.ObjectId,
     ref:"user"
   }
-
 });
 
 export const Recipe = mongoose.model("recipe",recipeSchema);

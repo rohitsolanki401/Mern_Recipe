@@ -20,6 +20,7 @@ const AddRecipe = () => {
     qty3: '',
     qty4: '',
     imgurl: '',
+    category: '',
   });
 
   const onChangeHandler = (e) => {
@@ -27,13 +28,25 @@ const AddRecipe = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const { title, ist, ing1, ing2, ing3, ing4, qty1, qty2, qty3, qty4, imgurl } =
-    formData;
+  const {
+    title,
+    ist,
+    ing1,
+    ing2,
+    ing3,
+    ing4,
+    qty1,
+    qty2,
+    qty3,
+    qty4,
+    imgurl,
+    category,
+  } = formData;
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if (!title || !ist || !imgurl) {
-      toast.error('Title, instruction, and image URL are required!');
+    if (!title || !ist || !imgurl || !category) {
+      toast.error('Title, instruction, image URL, and category are required!');
       return;
     }
     try {
@@ -48,7 +61,8 @@ const AddRecipe = () => {
         qty2,
         qty3,
         qty4,
-        imgurl
+        imgurl,
+        category
       );
       console.log('Add recipe formData:', result);
       toast.success('Recipe added successfully!');
@@ -238,6 +252,26 @@ const AddRecipe = () => {
               id="exampleInputName1"
               aria-describedby="nameHelp"
             />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="category" className="form-label">
+              Category
+            </label>
+            <select
+              name="category"
+              value={formData.category}
+              onChange={onChangeHandler}
+              className="form-control"
+              id="category"
+            >
+              <option value="">Select Category</option>
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner">Dinner</option>
+              <option value="Snack">Snack</option>
+              <option value="Dessert">Dessert</option>
+            </select>
           </div>
 
           <div className="container d-grid col-6">

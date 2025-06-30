@@ -57,7 +57,7 @@ const Home = () => {
             >
               <option value="">All Categories</option>
               <option value="Breakfast">Breakfast</option>
-              <option value="Lunch">Lunch/Dinner</option>
+              <option value="Lunch/Dinner">Lunch/Dinner</option>
               <option value="Snack">Snack</option>
               <option value="Dessert">Dessert</option>
             </select>

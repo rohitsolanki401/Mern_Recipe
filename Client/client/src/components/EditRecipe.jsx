@@ -128,8 +128,7 @@ const EditRecipe = () => {
           >
             <option value="">Select Category</option>
             <option value="Breakfast">Breakfast</option>
-            <option value="Lunch">Lunch</option>
-            <option value="Dinner">Dinner</option>
+            <option value="Lunch">Lunch/Dinner</option>
             <option value="Snack">Snack</option>
             <option value="Dessert">Dessert</option>
           </select>

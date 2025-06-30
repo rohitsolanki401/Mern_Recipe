@@ -27,5 +27,4 @@ const onSubmitHandler = async (e) => {
     toast.error("Title, instruction, and image URL are required!");
     return;
   }
-  // ...rest
 };

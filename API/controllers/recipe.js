@@ -8,9 +8,10 @@ export const add = async (req, res) => {
   if (
     !title ||
     !ist ||
-    !imgurl
+    !imgurl ||
+    !category
   ) {
-    return res.status(400).json({ message: "Title, instruction, and image URL are required." });
+    return res.status(400).json({ message: "Title, instruction, and image URL are required, and category are required." });
   }
 
   try {
@@ -26,6 +27,7 @@ export const add = async (req, res) => {
       qty3,
       qty4,
       imgurl,
+      category,
       user: req.user,
     });
 
@@ -113,3 +115,46 @@ export const getSavedRecipe  = async (req,res) =>{
     const recipe = await SavedRecipe.find()
     res.json({recipe})
 }
+
+// Edit Recipe
+export const editRecipe = async (req, res) => {
+  console.log('editRecipe called for id:', req.params.id);
+
+  const id = req.params.id;
+  try {
+    // Find the recipe
+    const recipe = await Recipe.findById(id);
+    if (!recipe) return res.status(404).json({ message: "Recipe not found" });
+
+    // Check if the logged-in user is the owner
+    if (recipe.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    // Update fields
+    Object.assign(recipe, req.body);
+    await recipe.save();
+
+    res.json({ message: "Recipe updated successfully", recipe });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Delete Recipe
+export const deleteRecipe = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const recipe = await Recipe.findById(id);
+    if (!recipe) return res.status(404).json({ message: "Recipe not found" });
+
+    if (recipe.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    await recipe.deleteOne();
+    res.json({ message: "Recipe deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

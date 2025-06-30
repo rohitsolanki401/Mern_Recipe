@@ -1,10 +1,28 @@
-import React,{useContext} from 'react'
-import { AppContext } from '../context/App_Context'
-import { useNavigate } from 'react-router-dom'
+import React, { useContext } from 'react';
+import { AppContext } from '../context/App_Context';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Profile = () => {
-  const {user, userRecipe} = useContext(AppContext)
-  const navigate = useNavigate()
+  const { user, userRecipe, token } = useContext(AppContext);
+  const navigate = useNavigate();
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this recipe?')) {
+      try {
+        await axios.delete(`${import.meta.env.VITE_API_URL}/${id}`, {
+          headers: { Auth: token },
+        });
+        toast.success('Recipe deleted!');
+        // Optionally refresh the list
+        window.location.reload();
+      } catch (err) {
+        toast.error('Failed to delete recipe');
+      }
+    }
+  };
+
   return (
     <>
       <div className="container text-center my-3">
@@ -37,6 +55,18 @@ const Profile = () => {
                   </div>
                   <div className="card-body">
                     <h5 className="card-title">{data.title}</h5>
+                    <button
+                      onClick={() => navigate(`/edit/${data._id}`)}
+                      className="btn btn-info mx-2"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(data._id)}
+                      className="btn btn-danger mx-2"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               </div>
@@ -46,6 +76,6 @@ const Profile = () => {
       </div>
     </>
   );
-}
+};
 
-export default Profile
+export default Profile;

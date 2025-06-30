@@ -7,6 +7,7 @@ import AddRecipe from './components/AddRecipe'
 import Saved from './components/Saved'
 import Home from './components/Home'
 import Profile from './components/Profile'
+import EditRecipe from './components/EditRecipe'
 import { ToastContainer,Bounce } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'; 
 import FetchRecipeById from './components/FetchRecipeById'
@@ -35,6 +36,7 @@ const App = () => {
       <Route path='/saved' element={<Saved />} />
       <Route path='/add' element={<AddRecipe />} />
       <Route path='/:id' element={<Detail />} />
+      <Route path='/edit/:id' element={<EditRecipe />} />
       </Routes>
       </Router>
     </>

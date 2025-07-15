@@ -7,9 +7,10 @@ const Saved = () => {
     useContext(AppContext);
   const navigate = useNavigate();
   // Get the full recipe objects for saved recipes
-  const savedRecipeIds = savedRecipe?.map((item) => item.recipe);
-  const savedRecipesData = recipe.filter((r) =>
-    savedRecipeIds?.includes(r._id)
+  const savedRecipeIds = savedRecipe?.map((item) => item.recipe); // extracts just the recipe IDs from savedRecipe.
+
+  const savedRecipesData = recipe.filter((r) =>   // It filters the full list of recipes.
+    savedRecipeIds?.includes(r._id)               // It keeps only the recipes whose _id is in savedRecipeIds.
   );
 
   useEffect(() => {

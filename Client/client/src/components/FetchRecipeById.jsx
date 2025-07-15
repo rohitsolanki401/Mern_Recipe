@@ -41,7 +41,8 @@ const FetchRecipeById = ({ id }) => {
                 {location.pathname !== '/saved' && (
                   <>
                   <div className="card-text">
-                    {recipe.ist.split(/(?=\d+\.\s)/).map((step, index) => (
+                    {/* ist - instructions */}
+                    {recipe.ist.split(/(?=\d+\.\s)/).map((step, index) => (    
                       <p key={index}>{step.trim()}</p>
                     ))}
                   </div>
